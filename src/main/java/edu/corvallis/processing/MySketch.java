@@ -1,27 +1,81 @@
 package edu.corvallis.processing;
 
 public class MySketch extends ProcessingSketch {
+    String state = "green"; //
+    float carX = 40;
 
-    @Override
     public void settings() {
-        size(800, 600);
+        size(600, 400);
     }
 
-    @Override
-    public void setup() {
-        background(0);
-    }
-
-    @Override
     public void draw() {
-        background(40);
-
-        fill(255, 0, 0);
-        ellipse(mouseX, mouseY, 100, 100);
+        background(185, 220, 250);
+        drawRoad();
+        drawLight();
+        drawCar(carX, 305);
     }
 
-    //Custom Functions 
+    public void drawRoad() {
+        noStroke();
+        fill(70);
+        rect(0, 300, 600, 100);
+        fill(255, 210, 0);
+        for (int x = 0; x < 600; x += 60) {
+            rect(x, 357, 30, 6);
+        }
+    }
 
+    public void drawLight() {
+        stroke(0);
+        fill(60);
+        rect(505, 210, 10, 90);       // pole
+        rect(475, 20, 70, 190, 10);   // box
+
+        // red
+        if (state.equals("red")) { 
+            fill(230, 40, 40); 
+        } else { 
+            fill(90, 30, 30); 
+        }
+        ellipse(510, 55, 50, 50);
+
+        // yellow
+        if (state.equals("yellow")) { 
+            fill(250, 210, 40); 
+        } else { 
+            fill(90, 80, 20); 
+        }
+        ellipse(510, 115, 50, 50);
+
+        // green
+        if (state.equals("green")) { 
+            fill(60, 200, 80); 
+        } else { 
+            fill(25, 75, 35); 
+        }
+        ellipse(510, 175, 50, 50);
+    }
+
+    public void drawCar(float x, float y) {
+        stroke(0);
+        fill(30, 90, 200);
+        rect(x + 25, y - 25, 65, 30, 8);   // roof
+        rect(x, y, 120, 35, 8);            // body
+        fill(20);
+        ellipse(x + 25, y + 35, 28, 28);   // back wheel
+        ellipse(x + 95, y + 35, 28, 28);   // front wheel
+    }
+
+    public void mousePressed() {
+        double d = calculateDistance(mouseX, mouseY, 510, 55);
+        if (d <= 25) {
+            state = "red";
+        }
+    }
+
+    public double calculateDistance(int x1, int y1, int x2, int y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
     //Main method
     public static void main(String[] args) {
         launch(MySketch.class);
