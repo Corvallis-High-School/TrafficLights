@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Modernization tasks for TrafficLights Processing application - Java 25 minimum and containerization",
+  "tasks": [
+    {
+      "type": "upgrade",
+      "id": "001-upgrade-java-to-25",
+      "description": "Upgrade the project to a Java 25 minimum; addresses Java Version is not the latest LTS.",
+      "reason": "The team selected Java 25 as the minimum to allow Java 25 features.",
+      "requirements": "Target Java 25 in Maven and the development container. Validate builds and existing tests on Java 25 and 27, including Processing compatibility. Document that Java 21 users need a separate JDK or rebuilt development container.",
+      "dependencies": [],
+      "successCriteria": {
+        "passBuild": "true",
+        "generateNewUnitTests": "false",
+        "passUnitTests": "true"
+      }
+    },
+    {
+      "type": "security",
+      "id": "002-security-and-cve-remediation",
+      "description": "Scan dependencies for CVEs and remediate vulnerable packages",
+      "reason": "Security best practice to ensure the application and its dependencies are free from known vulnerabilities before containerization and deployment.",
+      "requirements": "Scan Maven dependencies for known CVEs, remediate vulnerable dependencies, and re-scan. Report unresolved findings and verify compatibility on Java 25 and 27.",
+      "dependencies": [
+        "001-upgrade-java-to-25"
+      ],
+      "successCriteria": {
+        "passBuild": "true",
+        "generateNewUnitTests": "false",
+        "passUnitTests": "true"
+      }
+    },
+    {
+      "type": "containerization",
+      "id": "003-containerize-java-application",
+      "description": "Create a Dockerfile for portability; addresses No Dockerfile found.",
+      "reason": "Assessment report identified no Dockerfile found. Containerization enables portability across environments and provides optional capability for future Azure deployment, CI/CD pipelines, or team collaboration.",
+      "requirements": "Create a Dockerfile using Java 25 or later. Preserve local desktop use and account for the Processing application's graphical display requirements. Verify container build and operation; do not assume cloud deployment.",
+      "dockerfilePath": "Dockerfile (to be created)",
+      "dependencies": [
+        "001-upgrade-java-to-25",
+        "002-security-and-cve-remediation"
+      ]
+    }
+  ],
+  "metadata": {
+    "planName": "TrafficLights Java 25 and Containerization",
+    "projectName": "processing-starter (TrafficLights)",
+    "language": "java",
+    "createdAt": "2026-11-24T11:52:22.491-08:00",
+    "version": "1.0"
+  }
+}
+
+
