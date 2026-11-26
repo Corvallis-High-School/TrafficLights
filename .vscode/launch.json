@@ -5,8 +5,7 @@
             "type": "java",
             "name": "MySketch",
             "request": "launch",
-            "mainClass": "edu.corvallis.processing.MySketch",
-            "projectName": "processing-starter"
+            "mainClass": "edu.corvallis.processing.MySketch"
         },
         {
             "type": "java",
